@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+
+shopt -s extglob
+set -o errtrace
+set -o errexit
+set -o pipefail
+
+REQUIREMENTS=(git)
+DEPENDENCIES=(vim tmux zsh xclip ag)
+GITREPO="https://github.com/0xdco/dotfiles.git"
+DESTDIR="${HOME}/.dotfiles"
+
+install_dotfiles()
+{
+  check_dependencies
+  check_requirements
+  gitrepo
+  rundotmanage
+}
+
+rundotmanage()
+{
+  if [ -x "${HOME}/.dotfiles/bin/dotmanage" ]
+  then
+    source ${HOME}/.dotfiles/bin/dotmanage
+  fi
+}
+
+gitrepo()
+{
+  # if it is not there, clone it
+  if [ ! -d "${DESTDIR}" ]
+  then
+    _log "Clonning ..."
+    git clone ${GITREPO} ${DESTDIR} --recursive --jobs 8
+  else
+    _log "Repository already cloned, please update it:"
+    echo "    pushd ${HOME}/.dotfiles; git pull --recurse-submodules; popd"
+    _log "And run:"
+    echo "    source ${HOME}/.dotfiles/bin/dotmanage"
+  fi
+}
+
+check_dependencies()
+{
+  for i in ${REQUIREMENTS[@]};
+  do
+    if _not_installed ${i}
+    then
+      _log "the required executable [${i}] could not be found in your path, fix it and try again"
+    fi
+  done
+}
+
+
+check_requirements()
+{
+  for i in ${DEPENDENCIES[@]};
+  do
+    if _not_installed ${i}
+    then
+      _abandon "[${i}] currently not installed in your system"
+    fi
+  done
+}
+
+_not_installed()
+{
+  [ ! $(which $1) ]
+}
+
+_log()
+{
+  echo -e "$0 -> $1"
+}
+
+_abandon()
+{
+  echo -e "$0 -> $1"
+  exit 1
+}
+
+install_dotfiles

@@ -1,0 +1,27 @@
+[include]
+  path = .gitconfig.private
+[alias]
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  abbr = "!sh -c 'git rev-list --all | grep ^$1 | while read commit; do git --no-pager log -n1 --pretty=format:\"%H %ci %an %s%n\" $commit; done' -"
+  edit-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; vim `f`"
+  add-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; git add `f`"
+  add-remote = "!f() { git remote add $1 git@github.com/$2.git; }; f"
+  bclean = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -r git branch -d; }; f"
+  pof = !sh -c 'git push --force-with-lease origin $(git rev-parse --abbrev-ref HEAD)'
+  lr = log --left-right --format='' --oneline
+  shorty = status --short --branch
+  it = !git init && git commit -m “root” --allow-empty
+  startwork = !git fetch origin && git checkout -b ${BRANCHNAME} && git push origin ${BRANCHNAME}
+  wip = !git add . && git commit --fixup HEAD
+  fixup2pr = rebase -i --autosquash
+  assume = update-index --assume-unchanged
+  unassume = update-index --no-assume-unchanged
+  assumed = "!git ls-files -v | grep ^h | cut -c 3-"
+[diff]
+  tool = vimdiff
+[merge]
+  tool = vimdiff
+[push]
+  default = matching
+[core]
+  excludesfile = ~/.gitignore

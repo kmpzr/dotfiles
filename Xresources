@@ -1,0 +1,26 @@
+! Run:
+! $ xrdb ~/.Xresources
+! to reload
+
+! Xft.dpi:         96
+! Xft.antialias:   true
+! Xft.hinting:     full
+! Xft.hintstyle:   hintslight
+Xft.hintstyle:   hintfull
+! Xft.rgba:        rgb
+Xft.rgba:        none
+
+#include ".Xresources.d/colors"
+
+! URxvt.letterSpace:          -2
+! URxvt*font:                 xft:Hack:size=9
+URxvt*font:                 xft:mono:medium:size=9
+! xterm*faceName:             xft:mono:medium:size=9
+URxvt*scrollBar:            false
+URxvt*loginShell:           true
+URxvt*cursorBlink:          true
+URxvt*cursorUnderline:      true
+URxvt.xftAntialias:         false
+URxvt*visualBell:           false
+URxvt*mouseWheelScrollPage: true
+URxvt*buffered:             true

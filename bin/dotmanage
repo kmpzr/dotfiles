@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="${HOME}/.dotfiles"
+EXCLUDES="(README.md|bin)"
+
+
+function install() {
+  for FILE in $(ls ${SCRIPT_DIR} | grep -Ev ${EXCLUDES})
+  do
+    echo -n "${SCRIPT_DIR}/${FILE}: "
+    if [ -e "${HOME}/.${FILE}" ]; then
+      echo -e "\033[0;33malready exists, skipping.\033[0m"
+    else
+      if ln -s "${SCRIPT_DIR}/${FILE}" "${HOME}/.${FILE}"; then
+        echo -e "\033[0;32mlinked to ${HOME}/.${FILE}\033[0m"
+      fi
+    fi
+  done
+}
+
+install
