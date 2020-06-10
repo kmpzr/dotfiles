@@ -1,7 +1,7 @@
 # Custom Paths
 
-if [ -d ~/Apps/bin ] ; then
-  PATH=~/Apps/bin:"$PATH"
+if [ -d ~/apps/bin ] ; then
+  PATH=~/apps/bin:"$PATH"
 fi
 
 if [ -d ~/bin ] ; then
